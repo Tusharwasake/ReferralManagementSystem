@@ -7,9 +7,10 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 3000,
-    host: true,
-    hmr: {
-      overlay: false
+    host: '127.0.0.1',
+    strictPort: true,
+    fs: {
+      strict: false
     },
     proxy: {
       '/api': {
@@ -18,17 +19,12 @@ export default defineConfig({
       }
     }
   },
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    sourcemap: false,
-    rollupOptions: {
-      output: {
-        manualChunks: undefined
-      }
-    }
+  esbuild: {
+    loader: 'jsx',
+    include: /src\/.*\.jsx?$/,
+    exclude: []
   },
-  optimizeDeps: {
-    include: ['react', 'react-dom']
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   }
 })
