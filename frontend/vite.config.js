@@ -7,24 +7,29 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 3000,
-    host: '127.0.0.1',
-    strictPort: true,
-    fs: {
-      strict: false
+    host: 'localhost',
+    strictPort: false,
+    cors: true,
+    headers: {
+      'Content-Type': 'application/javascript'
     },
+    middlewareMode: false,
     proxy: {
       '/api': {
         target: 'http://localhost:5002',
         changeOrigin: true,
+        secure: false
       }
     }
   },
-  esbuild: {
-    loader: 'jsx',
-    include: /src\/.*\.jsx?$/,
-    exclude: []
+  define: {
+    global: 'globalThis',
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
+    extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json']
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom', 'axios'],
+    force: true
   }
 })
