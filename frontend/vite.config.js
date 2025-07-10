@@ -6,30 +6,13 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    port: 3000,
-    host: 'localhost',
-    strictPort: false,
-    cors: true,
-    headers: {
-      'Content-Type': 'application/javascript'
-    },
-    middlewareMode: false,
+    port: 3001,
+    host: true,
     proxy: {
       '/api': {
         target: 'http://localhost:5002',
         changeOrigin: true,
-        secure: false
       }
     }
-  },
-  define: {
-    global: 'globalThis',
-  },
-  resolve: {
-    extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json']
-  },
-  optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'axios'],
-    force: true
   }
 })
